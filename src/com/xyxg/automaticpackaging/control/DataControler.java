@@ -66,6 +66,8 @@ public class DataControler {
     /** strings的文档 **/
     Document documentString;
     
+    Document configDoc;
+    
     /** 根节点 **/
     Element root;
     
@@ -449,5 +451,40 @@ public class DataControler {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public void writeConfig() {
+        try {
+            configDoc = readerMain.read(new File(ROOT_PATH + "\\config.xml"));
+            Element root = configDoc.getRootElement();
+            List<Element> properties = root.elements("property");
+            for (int i = 0; i < properties.size(); i++) {
+                String name = properties.get(i).attributeValue("name");
+                if ("target.dir".equals(name)) {
+                    properties.get(i).addAttribute("value", "./src/" + map.get("package").replace('.', '/'));
+                }
+                else if ("new_name_c".equals(name)) {
+                    properties.get(i).addAttribute("value", map.get("package"));
+                }
+                else if ("new_name".equals(name)) {
+                    properties.get(i).addAttribute("value", map.get("package"));
+                }
+            }
+            OutputFormat format = OutputFormat.createPrettyPrint();// 创建文件输出的时候，自动缩进的格式
+            format.setEncoding("UTF-8");// 设置编码
+            try {
+                XMLWriter writer = new XMLWriter(new OutputStreamWriter(new FileOutputStream(new File(ROOT_PATH + "\\config.xml")), "UTF-8"),
+                                                 format);
+                writer.write(configDoc);
+                writer.flush();
+                writer.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (DocumentException e) {
+            e.printStackTrace();
+        }
     }
 }

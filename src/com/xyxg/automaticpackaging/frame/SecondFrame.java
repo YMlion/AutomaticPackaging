@@ -270,5 +270,6 @@ public class SecondFrame extends JFrame {
         map.put("UMENG_CHANNEL", txtUChannel.getText().trim());
         map.put("com.baidu.lbsapi.API_KEY", txtBApiKey.getText().trim());
         MainApp.mainFrame.controler.write(1);
+        MainApp.mainFrame.controler.writeConfig();
     }
 }
