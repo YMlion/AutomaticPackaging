@@ -453,7 +453,11 @@ public class DataControler {
         return null;
     }
     
+    @SuppressWarnings("unchecked")
     public void writeConfig() {
+        if (MainApp.packageFlag == MainApp.NA517_APK) {
+            return;
+        }
         try {
             configDoc = readerMain.read(new File(ROOT_PATH + "\\config.xml"));
             Element root = configDoc.getRootElement();
